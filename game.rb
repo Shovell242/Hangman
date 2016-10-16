@@ -14,7 +14,7 @@ class Hangman
 		@secret_word = find_secret_word
 		@display     = Array.new(secret_word.size, "_")
 		@wrong_chars = []
-		@turns_left  = 6
+		@turns_left  = 8
 	end
 
 	def word_bank
@@ -23,7 +23,7 @@ class Hangman
 
 	def find_secret_word
 		random_index = rand(word_bank.size)
-		word = word_bank[random_index].chomp
+		word = word_bank[random_index].chomp.downcase
 		word.size.between?(5, 12) ? word : find_secret_word
 	end
 
@@ -59,7 +59,7 @@ class Hangman
 
 	def user_guess
 		puts "\nPlease enter a letter to guess!"
-		guess = gets.chomp
+		guess = gets.chomp.downcase
 	end
 
 	def increase_score
@@ -112,17 +112,7 @@ class Hangman
 	end
 end
 
-puts "\nWelcome to Hangman!\n"
-print "Enter your username > "
-name = gets.chomp
-file = "games/#{name}.yaml"
-if File.exist?(file)
-	content = File.open(file, "r") { |f| f.read }
-	data    = YAML.load(content)
-	Hangman.new(data[:username], data[:score]).gameplay
-else
-	Hangman.new(name).gameplay
-end
+
 
 
 
